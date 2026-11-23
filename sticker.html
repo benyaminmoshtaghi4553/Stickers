@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>استیکر ساز</title>
+<style>
+:root{--tx:#f4f7ff;--mu:#a3aecb;--ac:#38a8ff;--ac2:#9b6bff;--g:rgba(255,255,255,.08);--g2:rgba(255,255,255,.16);--bd:rgba(255,255,255,.14);--sp:cubic-bezier(.2,.9,.25,1.1);color-scheme:dark;box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:#080c1a;color:var(--tx);font-family:Vazirmatn,Tahoma,system-ui,sans-serif;font-size:14px;min-height:100vh;padding:env(safe-area-inset-top,0) 0 96px;overflow-x:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.5;z-index:-1;animation:fl 20s ease-in-out infinite alternate}
+.b1{width:380px;height:380px;background:#1e90ff;top:-90px;right:-70px}
+.b2{width:440px;height:440px;background:#8b5cf6;bottom:-130px;left:-110px;animation-delay:-7s}
+.b3{width:300px;height:300px;background:#ff4f9a;top:42%;left:40%;opacity:.28;animation-delay:-12s}
+@keyframes fl{to{transform:translate(70px,-60px) scale(1.25)}}
+@keyframes up{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.7);opacity:0}100%{transform:none;opacity:1}}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 6px;max-width:1040px;margin:auto}
+.logo{font-size:21px;font-weight:800;background:linear-gradient(90deg,var(--ac),var(--ac2),#ff6fb1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{font-size:12px;color:var(--mu);background:var(--g);border:1px solid var(--bd);padding:6px 12px;border-radius:20px;backdrop-filter:blur(12px)}
+.wrap{max-width:1040px;margin:auto;padding:10px 14px;display:grid;gap:14px}
+@media(min-width:880px){.wrap{grid-template-columns:minmax(0,1fr) 400px;align-items:start}.panel{position:sticky;top:12px}}
+.card{background:var(--g);-webkit-backdrop-filter:blur(28px) saturate(170%);backdrop-filter:blur(28px) saturate(170%);border:1px solid var(--bd);border-radius:26px;padding:14px;box-shadow:0 18px 50px #0007,inset 0 1px 0 #ffffff33;animation:up .7s var(--sp) both}
+.panel{animation-delay:.12s}
+.pv{position:relative;border-radius:20px;overflow:hidden;min-height:300px;display:flex;align-items:center;justify-content:center;touch-action:none;background:conic-gradient(#ffffff12 25%,#0000 0 50%,#ffffff12 0 75%,#0000 0) 0 0/20px 20px,#ffffff08;border:1px solid var(--bd)}
+canvas#cv{max-width:100%;max-height:min(100vw - 60px,500px);width:auto;height:auto;cursor:grab;filter:drop-shadow(0 8px 24px #0006)}
+.empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;background:#080c1acc;backdrop-filter:blur(6px);transition:opacity .4s,visibility .4s}
+.empty.h{opacity:0;visibility:hidden}
+.empty .ic{font-size:54px;animation:pop .8s var(--sp) both,fl2 3.5s ease-in-out .8s infinite alternate}
+@keyframes fl2{to{transform:translateY(-8px)}}
+.empty h2{margin:0;font-size:18px}.empty small{color:var(--mu)}
+.fab{position:absolute;bottom:10px;right:50%;transform:translateX(50%);display:flex;gap:6px;padding:6px;border-radius:22px;background:#0c1228b3;backdrop-filter:blur(18px);border:1px solid var(--bd);transition:.4s var(--sp)}
+.fab.h{opacity:0;transform:translateX(50%) translateY(30px);pointer-events:none}
+.fab button{width:40px;height:40px;border:0;border-radius:15px;background:var(--g);color:var(--tx);font-size:18px;cursor:pointer;transition:.2s var(--sp)}
+.fab button:active{transform:scale(.85)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;position:relative;overflow:hidden;background:var(--g);border:1px solid var(--bd);color:var(--tx);border-radius:16px;padding:11px 16px;font:inherit;font-weight:600;cursor:pointer;transition:.25s var(--sp)}
+.btn:hover{background:var(--g2);transform:translateY(-2px)}
+.btn:active{transform:scale(.93)}
+.btn.p{background:linear-gradient(135deg,var(--ac),var(--ac2));border:0;box-shadow:0 8px 26px #38a8ff55}
+.btn input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.th{display:flex;gap:10px;overflow-x:auto;padding:14px 4px 4px;scrollbar-width:none}
+.th>*{flex:0 0 60px;height:60px;border-radius:17px;background:var(--g);border:2px solid transparent;position:relative;cursor:pointer;transition:.3s var(--sp);animation:pop .5s var(--sp) both}
+.th>.s{border-color:var(--ac2);box-shadow:0 0 22px #9b6bff88;transform:translateY(-3px)}
+.th img{width:100%;height:100%;object-fit:contain;border-radius:14px}
+.th b{position:absolute;top:-7px;left:-7px;width:22px;height:22px;border-radius:50%;background:#ff4d6a;text-align:center;line-height:22px;font-size:14px}
+.th .add{display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--mu);border:2px dashed var(--bd)}
+.tabs{display:flex;gap:4px;padding:5px;border-radius:19px;background:#ffffff0f;border:1px solid var(--bd);margin-bottom:14px}
+.tabs button{flex:1;border:0;background:none;color:var(--mu);padding:9px 2px;border-radius:14px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:.3s var(--sp);display:flex;flex-direction:column;gap:2px;align-items:center}
+.tabs button span{font-size:17px}
+.tabs button.on{background:linear-gradient(135deg,#38a8ff55,#9b6bff55);color:#fff;box-shadow:inset 0 1px 0 #ffffff55,0 4px 16px #0005}
+.pn{display:none}.pn.on{display:block;animation:up .45s var(--sp)}
+.ctl{display:flex;align-items:center;gap:10px;margin:14px 0}
+.ctl>label{width:82px;flex:none;color:var(--mu);font-size:13px}
+.ctl .v{width:34px;text-align:center;font-size:12px;font-weight:700;color:var(--ac)}
+input[type=range]{--p:50%;flex:1;min-width:0;height:28px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:7px;border-radius:7px;background:linear-gradient(to left,var(--ac2) var(--p),#ffffff22 var(--p))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-8.5px;border-radius:50%;background:#fff;box-shadow:0 3px 12px #0009,0 0 0 5px #9b6bff44;transition:transform .2s var(--sp)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.3)}
+input[type=range]::-moz-range-track{height:7px;border-radius:7px;background:#ffffff22}
+input[type=range]::-moz-range-progress{height:7px;border-radius:7px;background:var(--ac2)}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:#fff}
+.seg{display:flex;flex:1;padding:4px;gap:4px;border-radius:16px;background:#ffffff0f;border:1px solid var(--bd)}
+.seg button{flex:1;border:0;background:none;color:var(--mu);border-radius:12px;padding:10px 2px;font:inherit;font-size:12.5px;cursor:pointer;transition:.3s var(--sp)}
+.seg button.on{background:#ffffff2b;color:#fff;font-weight:700;box-shadow:inset 0 1px 0 #ffffff44}
+.pre{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:6px}
+.pre button{flex:none;border:1px solid var(--bd);background:var(--g);color:var(--tx);padding:9px 15px;border-radius:20px;font:inherit;font-size:13px;cursor:pointer;transition:.25s var(--sp)}
+.pre button:active{transform:scale(.92)}
+.sw{display:flex;gap:9px;align-items:center;flex:1;flex-wrap:wrap}
+.sw i{width:28px;height:28px;border-radius:50%;border:2px solid #ffffff55;cursor:pointer;transition:.2s var(--sp)}
+.sw i:hover{transform:scale(1.2)}.sw i:active{transform:scale(.85)}
+input[type=color]{width:34px;height:34px;padding:0;border:2px solid #fff6;border-radius:50%;background:none;cursor:pointer}
+.tg{display:flex;align-items:center;gap:10px;flex:1;cursor:pointer;font-weight:600}
+.tg input{display:none}
+.tg s{width:46px;height:27px;border-radius:20px;background:#ffffff25;position:relative;transition:.3s var(--sp);flex:none}
+.tg s::after{content:"";position:absolute;top:3px;right:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:.3s var(--sp);box-shadow:0 2px 6px #0006}
+.tg input:checked+s{background:linear-gradient(135deg,var(--ac),var(--ac2))}
+.tg input:checked+s::after{transform:translateX(-19px)}
+input[type=text]{flex:1;min-width:0;background:#ffffff12;border:1px solid var(--bd);color:var(--tx);border-radius:14px;padding:12px;font:inherit}
+select{background:#ffffff1a;color:var(--tx);border:1px solid var(--bd);border-radius:14px;padding:10px;font:inherit}
+select option{background:#1a2036}
+.hint{color:var(--mu);font-size:12px;line-height:1.7}
+.bar{position:fixed;inset:auto 0 0 0;display:flex;gap:10px;align-items:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0));background:#0a1024b8;-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);border-top:1px solid var(--bd);z-index:5}
+.bar .grow{flex:1}
+#sheet{position:fixed;inset:0;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;text-align:center;background:#050816dd;backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:.35s}
+#sheet.on{opacity:1;visibility:visible}
+#sheet img{max-width:86%;max-height:50vh;border-radius:20px;background:conic-gradient(#888 25%,#555 0 50%,#888 0 75%,#555 0) 0 0/16px 16px;transform:scale(.8);transition:.5s var(--sp)}
+#sheet.on img{transform:none}
+#toast{position:fixed;top:16px;left:50%;transform:translate(-50%,-90px);padding:10px 20px;border-radius:22px;background:#ffffff26;backdrop-filter:blur(20px);border:1px solid var(--bd);z-index:20;transition:.45s var(--sp);font-size:13px;max-width:90%}
+#toast.on{transform:translate(-50%,0)}
+.th em{position:absolute;bottom:-5px;right:-5px;font-style:normal;font-size:15px;pointer-events:none}
+#pe input[type=text]{width:100%}
+.tabs button{font-size:11.5px}
+/* v4 layout+colors */
+:root{--ac:#7c5cff;--ac2:#00c2ff;--g:rgba(255,255,255,.06);--g2:rgba(255,255,255,.12);--bd:rgba(255,255,255,.1)}
+body{background:#090b13}
+.b1{background:#6d4aff;opacity:.32}.b2{background:#0095ff;opacity:.24}.b3{display:none}
+.logo{background:linear-gradient(90deg,#fff,#aab8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn.p{background:linear-gradient(135deg,#7c5cff,#00c2ff);box-shadow:0 6px 22px #7c5cff55}
+.tabs button.on{background:linear-gradient(135deg,#7c5cff,#00a8ff);color:#fff;box-shadow:0 4px 16px #7c5cff66}
+.top{position:sticky;top:0;z-index:7;max-width:none;height:58px;padding:8px 14px;gap:8px;background:rgba(9,11,19,.82);-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);border-bottom:1px solid var(--bd)}
+.top .grow{flex:1}.top .btn{padding:9px 15px}
+.pinfo{position:absolute;top:8px;right:8px;z-index:2}
+.pv select{position:absolute;top:8px;left:8px;z-index:2;padding:5px 9px;font-size:12px;border-radius:12px}
+.pn.on{background:var(--g);border:1px solid var(--bd);border-radius:22px;padding:4px 14px 10px}
+@media(max-width:879px){
+ body{padding-bottom:112px}
+ .wrap{display:block;padding:10px}
+ .wrap>section{margin-bottom:12px}
+ .wrap>section:first-child{position:sticky;top:58px;z-index:4;background:rgba(10,12,22,.88)}
+ canvas#cv{max-height:30vh}
+ .pv{min-height:0;padding:6px}
+ .th{padding:10px 2px 0}
+ .th>*{flex:0 0 46px;height:46px;border-radius:14px}
+ .panel{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;animation:none;padding:0}
+ .tabs{position:fixed;inset:auto 10px calc(10px + env(safe-area-inset-bottom,0px)) 10px;z-index:8;margin:0;padding:6px;border-radius:26px;background:rgba(14,16,30,.9);-webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);box-shadow:0 12px 40px #000b}
+ .tabs button{font-size:11px;padding:8px 2px}
+}
+/* v5: nothing fixed */
+.top{position:static;height:auto;padding:16px 18px 6px;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0}
+@media(max-width:879px){
+ body{padding-bottom:24px}
+ .wrap>section:first-child{position:static;background:var(--g)}
+ canvas#cv{max-height:min(100vw - 60px,460px)}
+ .pv{min-height:280px;padding:0}
+ .th>*{flex:0 0 56px;height:56px}
+ .tabs{position:static;inset:auto;margin:0 0 12px;padding:5px;border-radius:19px;background:#ffffff0f;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none}
+ .tabs button{font-size:12px;padding:9px 2px}
+ .panel{background:var(--g);border:1px solid var(--bd);box-shadow:0 18px 50px #0007;-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);padding:14px}
+ .pn.on{background:none;border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i>
+<div class="top"><div class="logo">🎨 استیکر ساز</div><div class="grow"></div><button class="btn" id="dlAll">همه</button><button class="btn p" id="dl">💾 ذخیره</button></div>
+<main class="wrap">
+<section class="card">
+ <div class="pv"><div class="chip pinfo" id="info">512×512</div><select id="fmt" data-k="fmt"><option value="webp">WebP</option><option value="png">PNG</option></select><canvas id="cv" width="512" height="512"></canvas>
+  <div class="empty" id="empty"><div class="ic">🖼️</div><h2>عکستو بیار تا استیکر شه</h2><small>بدون برش، با گوشه‌های گرد و کادر</small>
+   <div class="row" style="margin-top:8px"><label class="btn p">📷 انتخاب عکس<input type="file" class="fi" accept="image/*" multiple></label><button class="btn" id="paste">📋 چسباندن</button><button class="btn" id="demo">✨ نمونه</button></div></div>
+  <div class="fab h" id="fab"><button id="zm" title="کوچک">−</button><button id="zp" title="بزرگ">+</button><button id="flip" title="برعکس">⇋</button><button id="rot" title="چرخش">↻</button><button id="reset" title="ریست">⟲</button></div></div>
+ <div class="th" id="th"></div>
+</section>
+<section class="card panel">
+ <div class="tabs" id="tabs"><button class="on" data-t="a"><span>🔲</span>چارچوب</button><button data-t="b"><span>✨</span>افکت</button><button data-t="c"><span>🎨</span>رنگ</button><button data-t="d"><span>🔤</span>متن</button><button data-t="e"><span>📦</span>پک</button></div>
+ <div class="pn on" id="pa">
+  <div class="ctl"><div class="seg"><button data-k="fit" data-v="contain" class="on">کامل بدون برش</button><button data-k="fit" data-v="cover">پر کردن</button><button data-k="fit" data-v="stretch">کشیده</button></div></div>
+  <div class="ctl"><div class="seg"><button data-k="mode" data-v="square" class="on">مربع ۵۱۲</button><button data-k="mode" data-v="auto">نسبت اصلی</button></div></div>
+  <div class="ctl"><label>گردی گوشه</label><input type="range" data-k="rad" min="0" max="100" value="20"><span class="v"></span></div>
+  <div class="ctl"><label>حاشیه داخلی</label><input type="range" data-k="pad" min="0" max="120" value="16"><span class="v"></span></div>
+  <div class="ctl"><label>زوم</label><input type="range" data-i="zoom" min="0.2" max="3" step="0.01" value="1"><span class="v"></span></div>
+  <div class="ctl"><label>چرخش</label><input type="range" data-i="rot" min="-180" max="180" value="0"><span class="v"></span></div>
+ </div>
+ <div class="pn" id="pb">
+  <div class="pre"><button data-p="classic">⭐ کلاسیک</button><button data-p="yellow">🟡 زرد</button><button data-p="bold">💪 ضخیم</button><button data-p="circle">⚪ دایره</button><button data-p="none">🚫 بدون افکت</button></div>
+  <div class="ctl"><label class="tg"><input type="checkbox" data-k="olOn" checked><s></s>کادر دور تصویر</label></div>
+  <div class="ctl"><label>ضخامت کادر</label><input type="range" data-k="olW" min="1" max="40" value="10"><span class="v"></span></div>
+  <div class="ctl"><label>رنگ کادر</label><div class="sw"><i data-sw="olC" data-c="#ffffff" style="background:#fff"></i><i data-sw="olC" data-c="#111111" style="background:#111"></i><i data-sw="olC" data-c="#ffd400" style="background:#ffd400"></i><i data-sw="olC" data-c="#ff4f9a" style="background:#ff4f9a"></i><i data-sw="olC" data-c="#22d3ee" style="background:#22d3ee"></i><input type="color" data-k="olC" value="#ffffff"></div></div>
+  <div class="ctl"><label class="tg"><input type="checkbox" data-k="shOn" checked><s></s>سایه</label></div>
+  <div class="ctl"><label>شدت سایه</label><input type="range" data-k="shB" min="1" max="40" value="12"><span class="v"></span></div>
+ </div>
+ <div class="pn" id="pc">
+  <div class="ctl"><label class="tg"><input type="checkbox" data-k="bgOn"><s></s>رنگ پس‌زمینه</label><input type="color" data-k="bg" value="#ffffff"></div>
+  <div class="ctl"><button class="btn" id="pick" style="flex:1">🎯 پاک‌کردن یک رنگ</button><input type="color" id="keyc" disabled value="#ffffff"><button class="btn" id="clr">لغو</button></div>
+  <div class="ctl"><label>دقت حذف</label><input type="range" data-i="tol" min="5" max="150" value="40"><span class="v"></span></div>
+  <div class="hint">دکمه رو بزن، بعد روی رنگی که می‌خوای پاک شه (مثلاً پس‌زمینه سفید) توی تصویر بزن.</div>
+ </div>
+ <div class="pn" id="pd">
+  <div class="ctl"><input type="text" data-k="txt" placeholder="متن استیکر..."><input type="color" data-k="txtC" value="#ffffff"></div>
+  <div class="ctl"><label>اندازه</label><input type="range" data-k="txtSz" min="16" max="160" value="64"><span class="v"></span></div>
+  <div class="ctl"><label>جای عمودی</label><input type="range" data-k="txtY" min="5" max="95" value="85"><span class="v"></span></div>
+  <div class="ctl"><label>دور متن</label><input type="range" data-k="txtS" min="0" max="20" value="6"><span class="v"></span><input type="color" data-k="txtSC" value="#000000"></div>
+ </div>
+<div class="pn" id="pe">
+  <div class="ctl"><input type="text" id="pt" placeholder="اسم پک (فارسی هم می‌شه)"></div>
+  <div class="ctl"><input type="text" id="pnm" dir="ltr" placeholder="اسم کوتاه لاتین مثل my_pack"></div>
+  <div class="ctl"><label>ایموجی این استیکر</label><input type="text" id="emo" maxlength="4" placeholder="😀" style="text-align:center;font-size:22px;max-width:90px"></div>
+  <div class="hint">هر استیکر یه ایموجی می‌خواد. روی عکس کوچیک بزن، ایموجیش رو بنویس. استایل (گوشه، کادر، سایه) برای کل پک یکسان اعمال می‌شه.</div>
+  <div class="ctl"><input type="text" id="tk" dir="ltr" placeholder="Bot Token از @BotFather"></div>
+  <div class="ctl"><input type="text" id="uid" dir="ltr" placeholder="آیدی عددی تو (از @userinfobot)"></div>
+  <div class="row"><button class="btn p" id="mkpack">🚀 ساخت پک در تلگرام</button><button class="btn" id="zip">🗜️ دانلود ZIP</button></div>
+  <div class="hint" id="pst" style="margin-top:10px">اول به رباتت /start بزن. ساخت مستقیم فقط روی GitHub Pages کار می‌کنه.</div>
+ </div>
+</section>
+</main>
+
+<div id="sheet"><img id="simg" alt=""><div class="hint" style="font-size:13px">عکس رو نگه دار ← ذخیره<br>بعد تو تلگرام: @Stickers ← /newsticker</div><div class="row"><button class="btn" id="cp">📋 کپی</button><button class="btn p" id="sx">بستن</button></div></div>
+<div id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400)}
+window.addEventListener('error',e=>toast('خطا: '+e.message));
+const vib=()=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
+const G={fit:'contain',mode:'square',pad:16,rad:20,bgOn:false,bg:'#ffffff',olOn:true,olC:'#ffffff',olW:10,shOn:true,shB:12,txt:'',txtC:'#ffffff',txtSz:64,txtY:85,txtS:6,txtSC:'#000000',fmt:'webp'};
+const PRE={classic:{olOn:true,olC:'#ffffff',olW:10,shOn:true,shB:12,rad:20},yellow:{olOn:true,olC:'#ffd400',olW:12,shOn:true,shB:10},bold:{olOn:true,olW:24,shOn:true,shB:16},circle:{rad:100,olOn:true,olW:8},none:{olOn:false,shOn:false,rad:0}};
+const items=[];let cur=-1,picking=false;
+const cv=$('cv'),ctx=cv.getContext('2d'),IT=()=>items[cur];
+function prep(it){
+ const sig=String(it.key)+'|'+it.tol;
+ if(it._p&&it._pk===sig)return it._p;
+ const c=mk(it.img.naturalWidth,it.img.naturalHeight),x=c.getContext('2d');x.drawImage(it.img,0,0);
+ if(it.key){const d=x.getImageData(0,0,c.width,c.height),a=d.data,k=it.key,t=it.tol;
+  for(let i=0;i<a.length;i+=4){const e=Math.hypot(a[i]-k[0],a[i+1]-k[1],a[i+2]-k[2]);
+   if(e<t)a[i+3]=0;else if(e<t*1.4)a[i+3]=Math.round(a[i+3]*(e-t)/(t*.4))}
+  x.putImageData(d,0,0)}
+ it._p=c;it._pk=sig;return c;
+}
+function dims(it){
+ if(G.mode==='square')return[512,512];
+ const w=it.img.naturalWidth,h=it.img.naturalHeight;
+ return w>=h?[512,Math.max(1,Math.round(512*h/w))]:[Math.max(1,Math.round(512*w/h)),512];
+}
+function layer(it,W,H){
+ const L=mk(W,H),c=L.getContext('2d'),P=prep(it),iw=P.width,ih=P.height,p=G.pad;
+ const fw=Math.max(1,W-2*p)/iw,fh=Math.max(1,H-2*p)/ih;let sx,sy;
+ if(G.fit==='contain')sx=sy=Math.min(fw,fh);else if(G.fit==='cover')sx=sy=Math.max(fw,fh);else{sx=fw;sy=fh}
+ sx*=it.zoom;sy*=it.zoom;
+ c.translate(W/2+it.ox,H/2+it.oy);c.rotate(it.rot*Math.PI/180);c.scale(sx*(it.flip?-1:1),sy);
+ c.beginPath();c.roundRect(-iw/2,-ih/2,iw,ih,G.rad/100*Math.min(iw,ih)/2);c.clip();c.drawImage(P,-iw/2,-ih/2);
+ return L;
+}
+function draw(it,cvs){
+ const[W,H]=dims(it);cvs.width=W;cvs.height=H;const x=cvs.getContext('2d');
+ if(G.bgOn){x.fillStyle=G.bg;x.fillRect(0,0,W,H)}
+ const L=layer(it,W,H);it._L=L;let base=L;
+ if(G.olOn&&G.olW>0){const O=mk(W,H),o=O.getContext('2d'),w=G.olW;
+  for(const r of[w,w*.5])for(let i=0;i<36;i++){const a=i/36*Math.PI*2;o.drawImage(L,Math.cos(a)*r,Math.sin(a)*r)}
+  o.drawImage(L,0,0);o.globalCompositeOperation='source-in';o.fillStyle=G.olC;o.fillRect(0,0,W,H);
+  o.globalCompositeOperation='source-over';o.drawImage(L,0,0);base=O}
+ if(G.shOn){x.save();x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=G.shB;x.shadowOffsetY=G.shB/3;x.drawImage(base,0,0);x.restore()}else x.drawImage(base,0,0);
+ if(G.txt){x.font=`bold ${G.txtSz}px Vazirmatn,Tahoma,sans-serif`;x.textAlign='center';x.textBaseline='middle';x.lineJoin='round';
+  const ty=H*G.txtY/100;
+  if(G.txtS>0){x.lineWidth=G.txtS*2;x.strokeStyle=G.txtSC;x.strokeText(G.txt,W/2,ty,W-10)}
+  x.fillStyle=G.txtC;x.fillText(G.txt,W/2,ty,W-10)}
+}
+let tmr,raf;
+function render(){cancelAnimationFrame(raf);raf=requestAnimationFrame(renderNow)}
+function renderNow(){
+ document.querySelectorAll('input[type=range]').forEach(e=>{const s=e.parentNode.querySelector('.v');if(s)s.textContent=e.value;e.style.setProperty('--p',(e.value-e.min)/(e.max-e.min)*100+'%')});
+ $('empty').classList.toggle('h',cur>=0);$('fab').classList.toggle('h',cur<0);
+ if(cur<0){ctx.clearRect(0,0,cv.width,cv.height);return}
+ draw(IT(),cv);clearTimeout(tmr);tmr=setTimeout(sizeInfo,350);
+}
+async function blobOf(it,type){
+ const c=mk(1,1);draw(it,c);const f=type||G.fmt;
+ if(f==='png')return new Promise(r=>c.toBlob(r,'image/png'));
+ let q=.95,b;do{b=await new Promise(r=>c.toBlob(r,'image/webp',q));q-=.1}while(b&&b.size>511000&&q>.1);return b;
+}
+async function sizeInfo(){
+ if(cur<0)return;const it=IT(),b=await blobOf(it),[W,H]=dims(it),kb=Math.round(b.size/1024);
+ $('info').textContent=`${W}×${H} · ${kb}KB `+(kb>512?'⚠️':'✅');
+}
+function buildThumbs(){
+ const th=$('th');th.innerHTML='';
+ items.forEach((it,i)=>{const d=document.createElement('div');if(i===cur)d.className='s';
+  d.innerHTML=`<img src="${it.url}"><em>${it.emoji}</em><b>×</b>`;
+  d.onclick=()=>{cur=i;sync();buildThumbs();render();vib()};
+  d.querySelector('b').onclick=e=>{e.stopPropagation();items.splice(i,1);cur=Math.min(cur,items.length-1);sync();buildThumbs();render()};
+  th.appendChild(d)});
+ if(items.length){const a=document.createElement('label');a.className='add';a.innerHTML='+<input type="file" class="fi" accept="image/*" multiple style="position:absolute;inset:0;opacity:0;width:100%;height:100%">';th.appendChild(a);bindFiles()}
+}
+function sync(){
+ const it=IT();document.querySelectorAll('[data-i]').forEach(e=>{if(it)e.value=it[e.dataset.i]});
+ $('keyc').disabled=!(it&&it.key);if($('emo'))$('emo').value=it?it.emoji:'';if(it&&it.key)$('keyc').value='#'+it.key.map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+function setG(o){
+ Object.assign(G,o);
+ document.querySelectorAll('input[data-k],select[data-k]').forEach(e=>{const v=G[e.dataset.k];if(e.type==='checkbox')e.checked=!!v;else e.value=v});
+ document.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',G[b.dataset.k]===b.dataset.v));render();
+}
+function addSrc(src,name){
+ const img=new Image();
+ img.onload=()=>{items.push({img,url:src,name,zoom:1,rot:0,flip:false,ox:0,oy:0,key:null,tol:40,emoji:'😀'});cur=items.length-1;sync();buildThumbs();render();toast('عکس اضافه شد ✅')};
+ img.onerror=()=>toast('این فایل خوانده نشد ❌');img.src=src;
+}
+function addFile(f){
+ if(!f)return;const r=new FileReader();
+ r.onload=()=>addSrc(r.result,(f.name||'sticker').replace(/\.[^.]+$/,''));r.onerror=()=>toast('خطا در خواندن فایل');r.readAsDataURL(f);
+}
+function bindFiles(){document.querySelectorAll('.fi').forEach(i=>i.onchange=e=>{const fs=[...e.target.files];if(fs.length)toast('در حال بارگذاری...');fs.forEach(addFile);e.target.value=''})}
+bindFiles();
+$('paste').onclick=async()=>{
+ try{const cl=await navigator.clipboard.read();let ok=false;
+  for(const c of cl)for(const t of c.types)if(t.startsWith('image/')){addFile(new File([await c.getType(t)],'paste.png',{type:t}));ok=true}
+  if(!ok)toast('عکسی توی کلیپ‌بورد نیست')}catch(e){toast('اجازه چسباندن نیست؛ انتخاب عکس رو بزن')}
+};
+$('demo').onclick=()=>{
+ const c=mk(600,420),x=c.getContext('2d'),g=x.createLinearGradient(0,0,600,420);
+ g.addColorStop(0,'#ff7a59');g.addColorStop(1,'#6c5ce7');x.fillStyle=g;x.fillRect(0,0,600,420);
+ x.font='220px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('😎',300,225);addSrc(c.toDataURL('image/png'),'demo');
+};
+document.addEventListener('paste',e=>{for(const i of (e.clipboardData||{items:[]}).items)if(i.type.startsWith('image/'))addFile(i.getAsFile())});
+document.addEventListener('dragover',e=>e.preventDefault());
+document.addEventListener('drop',e=>{e.preventDefault();[...e.dataTransfer.files].forEach(addFile)});
+document.querySelectorAll('input[data-k],select[data-k]').forEach(e=>e.addEventListener('input',()=>{G[e.dataset.k]=e.type==='checkbox'?e.checked:e.type==='range'?+e.value:e.value;render()}));
+document.querySelectorAll('button[data-k]').forEach(b=>b.onclick=()=>{vib();setG({[b.dataset.k]:b.dataset.v})});
+document.querySelectorAll('[data-sw]').forEach(i=>i.onclick=()=>{vib();setG({[i.dataset.sw]:i.dataset.c})});
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{vib();setG(PRE[b.dataset.p])});
+document.querySelectorAll('[data-i]').forEach(e=>e.addEventListener('input',()=>{if(cur<0)return;IT()[e.dataset.i]=+e.value;render()}));
+$('tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;vib();
+ document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on',x===b));
+ document.querySelectorAll('.pn').forEach(p=>p.classList.toggle('on',p.id==='p'+b.dataset.t))};
+const zoomBy=f=>{if(cur<0)return;IT().zoom=Math.min(3,Math.max(.2,IT().zoom*f));sync();render()};
+$('zp').onclick=()=>zoomBy(1.12);$('zm').onclick=()=>zoomBy(.89);
+$('flip').onclick=()=>{if(cur>=0){IT().flip=!IT().flip;render()}};
+$('rot').onclick=()=>{if(cur>=0){let r=IT().rot+90;if(r>180)r-=360;IT().rot=r;sync();render()}};
+$('reset').onclick=()=>{if(cur>=0){Object.assign(IT(),{ox:0,oy:0,zoom:1,rot:0,flip:false});sync();render()}};
+$('pick').onclick=()=>{picking=!picking;$('pick').classList.toggle('p',picking);cv.style.cursor=picking?'crosshair':'grab';if(picking)toast('روی رنگ مورد نظر توی تصویر بزن')};
+$('clr').onclick=()=>{if(cur>=0){IT().key=null;sync();render()}};
+$('keyc').oninput=e=>{if(cur<0)return;const h=e.target.value;IT().key=[1,3,5].map(i=>parseInt(h.substr(i,2),16));render()};
+let drag=null,pts=new Map(),pd=0;
+cv.addEventListener('pointerdown',e=>{
+ if(cur<0)return;cv.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+ if(picking){const r=cv.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)*cv.width/r.width),y=Math.floor((e.clientY-r.top)*cv.height/r.height);
+  const d=IT()._L.getContext('2d').getImageData(x,y,1,1).data;if(d[3]>0){IT().key=[d[0],d[1],d[2]];sync()}
+  picking=false;$('pick').classList.remove('p');cv.style.cursor='grab';render();pts.clear();return}
+ drag=[e.clientX,e.clientY];
+});
+cv.addEventListener('pointermove',e=>{
+ if(!pts.has(e.pointerId)||cur<0)return;pts.set(e.pointerId,[e.clientX,e.clientY]);const k=cv.width/cv.getBoundingClientRect().width;
+ if(pts.size===2){const[a,b]=[...pts.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pd)zoomBy(d/pd);pd=d;return}
+ if(drag){IT().ox+=(e.clientX-drag[0])*k;IT().oy+=(e.clientY-drag[1])*k;drag=[e.clientX,e.clientY];render()}
+});
+const up=e=>{pts.delete(e.pointerId);pd=0;drag=null};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+cv.addEventListener('wheel',e=>{e.preventDefault();zoomBy(e.deltaY<0?1.06:.94)},{passive:false});
+function save(b,name){try{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name+'.'+(G.fmt==='png'?'png':'webp');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000)}catch(e){}}
+function show(b){const r=new FileReader();r.onload=()=>{$('simg').src=r.result;$('sheet').classList.add('on')};r.readAsDataURL(b)}
+$('sx').onclick=()=>$('sheet').classList.remove('on');
+$('cp').onclick=async()=>{try{const b=await blobOf(IT(),'png');await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('کپی شد ✅')}catch(e){toast('کپی نشد؛ عکس رو نگه دار')}};
+$('dl').onclick=async()=>{if(cur<0)return toast('اول عکس بذار');vib();const b=await blobOf(IT());save(b,IT().name+'-sticker');show(b)};
+$('dlAll').onclick=async()=>{if(!items.length)return toast('اول عکس بذار');for(const it of items){save(await blobOf(it),it.name+'-sticker');await new Promise(r=>setTimeout(r,400))}};
+setG({});
+$('emo').oninput=e=>{if(cur>=0){IT().emoji=e.target.value||'😀';buildThumbs()}};
+const LS=k=>{try{return localStorage.getItem(k)||''}catch(e){return ''}};
+['pt','pnm','tk','uid'].forEach(id=>{const e=$(id);e.value=LS('sm_'+id);e.oninput=()=>{try{localStorage.setItem('sm_'+id,e.value)}catch(_){}}});
+const pst=m=>$('pst').textContent=m;
+async function tg(m,fd,tk){const r=await fetch(`https://api.telegram.org/bot${tk}/${m}`,{method:'POST',body:fd});const j=await r.json();if(!j.ok)throw new Error(j.description);return j.result}
+$('mkpack').onclick=async()=>{
+ const tk=$('tk').value.trim(),uid=$('uid').value.trim(),title=$('pt').value.trim();let nm=$('pnm').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+ if(!items.length)return toast('اول چند تا عکس بذار');
+ if(!tk||!uid||!title||!nm)return toast('همه فیلدها رو پر کن');
+ if(items.length>120)return toast('حداکثر ۱۲۰ استیکر');
+ try{
+  pst('در حال اتصال...');const me=await tg('getMe',new FormData(),tk),suf='_by_'+me.username.toLowerCase();
+  if(!nm.endsWith(suf))nm=nm.replace(/_by_.*$/,'')+suf;
+  for(let i=0;i<items.length;i++){
+   pst(`آپلود ${i+1} از ${items.length}...`);
+   const b=await blobOf(items[i],'webp'),fd=new FormData(),st={sticker:'attach://f',format:'static',emoji_list:[items[i].emoji||'😀']};
+   fd.append('user_id',uid);fd.append('name',nm);fd.append('f',b,'s.webp');
+   if(i===0){fd.append('title',title);fd.append('stickers',JSON.stringify([st]));await tg('createNewStickerSet',fd,tk)}
+   else{fd.append('sticker',JSON.stringify(st));await tg('addStickerToSet',fd,tk)}
+  }
+  pst('✅ ساخته شد: t.me/addstickers/'+nm);toast('پک ساخته شد ✅');
+ }catch(e){pst('❌ '+e.message+' — اگه Failed to fetch دیدی، صفحه رو روی GitHub Pages باز کن')}
+};
+const CT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t.push(c>>>0)}return t})();
+const crc=u=>{let r=-1;for(let i=0;i<u.length;i++)r=CT[(r^u[i])&255]^(r>>>8);return(r^-1)>>>0};
+$('zip').onclick=async()=>{
+ if(!items.length)return toast('اول چند تا عکس بذار');
+ const enc=new TextEncoder(),files=[];
+ for(const [i,it] of items.entries())files.push([String(i+1).padStart(2,'0')+'.webp',new Uint8Array(await(await blobOf(it,'webp')).arrayBuffer())]);
+ files.push(['emojis.txt',enc.encode(items.map((it,i)=>String(i+1).padStart(2,'0')+'.webp  '+it.emoji).join('\n'))]);
+ const parts=[],cen=[];let off=0;
+ for(const [n,d] of files){const nb=enc.encode(n),c=crc(d),l=new DataView(new ArrayBuffer(30));
+  l.setUint32(0,0x04034b50,true);l.setUint16(4,20,true);l.setUint16(6,0x800,true);l.setUint16(12,33,true);l.setUint32(14,c,true);l.setUint32(18,d.length,true);l.setUint32(22,d.length,true);l.setUint16(26,nb.length,true);
+  parts.push(new Uint8Array(l.buffer),nb,d);
+  const h=new DataView(new ArrayBuffer(46));h.setUint32(0,0x02014b50,true);h.setUint16(4,20,true);h.setUint16(6,20,true);h.setUint16(8,0x800,true);h.setUint16(14,33,true);h.setUint32(16,c,true);h.setUint32(20,d.length,true);h.setUint32(24,d.length,true);h.setUint16(28,nb.length,true);h.setUint32(42,off,true);
+  cen.push(new Uint8Array(h.buffer),nb);off+=30+nb.length+d.length}
+ const cs=cen.reduce((a,x)=>a+x.length,0),e=new DataView(new ArrayBuffer(22));
+ e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+ const z=new Blob([...parts,...cen,new Uint8Array(e.buffer)],{type:'application/zip'});
+ try{const a=document.createElement('a');a.href=URL.createObjectURL(z);a.download='sticker-pack.zip';a.click()}catch(_){}
+ toast('ZIP آماده شد');
+};
+</script>
+</body>
+</html>
